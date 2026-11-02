@@ -2,7 +2,7 @@
 
 <div class="my-3">
   <%# Part 1 here: fill in the route and method this form submits with, and give it the id tmdb_form %>
-  <%= form_tag do %>
+  <%= form_tag search_tmdb_path, method: :get, id: 'tmdb_form' do %>
     <%= label_tag 'movie_title_field', 'Movie Name', class: 'form-label' %>
     <%= text_field_tag 'title', nil, class: 'form-control', id: 'movie_title_field', placeholder: 'Manhunter' %>
     <%= label_tag 'movie_year_field', 'Release Year', class: 'form-label' %>
@@ -18,8 +18,39 @@
     </div>
 
     <%= submit_tag 'Search', id: 'tmdb_submit', class: 'btn btn-warning' %>
-    <%# Part 1 here: add a button that takes the user back to the movie list %>
+    <%= link_to 'Back to Movies', movies_path, class: 'btn btn-secondary' %>
   <% end %>
 </div>
 
-<%# Part 5 here: show the search results in a table with id search_movies %>
+<% if @movies.present? %>
+  <table class="table table-striped" id="search_movies">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Rating</th>
+        <th>Release Date</th>
+        <th>Description</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @movies.each do |movie| %>
+        <tr>
+          <td><%= movie.title %></td>
+          <td><%= movie.rating %></td>
+          <td><%= movie.release_date %></td>
+          <td><%= movie.description %></td>
+          <td>
+            <%= form_tag add_movie_path, method: :post do %>
+              <%= hidden_field_tag 'movie[title]', movie.title %>
+              <%= hidden_field_tag 'movie[rating]', movie.rating %>
+              <%= hidden_field_tag 'movie[release_date]', movie.release_date %>
+              <%= hidden_field_tag 'movie[description]', movie.description %>
+              <%= submit_tag 'Add Movie', class: 'btn btn-success' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

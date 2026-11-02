@@ -25,6 +25,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "faraday", "~> 2.12"
 gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
@@ -71,4 +72,14 @@ end
 # See https://devcenter.heroku.com/articles/getting-started-with-rails7#provision-a-database
 group :production do
   gem "pg"
+end
+
+
+group :test do
+  gem "rails-controller-testing"
+  gem "guard-rspec"
+end
+
+group :test do
+  gem "webmock"
 end
